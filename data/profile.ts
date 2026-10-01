@@ -1,8 +1,12 @@
 export const profile = {
   name: 'Richmond Abenney',
+  initials: 'RA',
   brand: 'RiG_Designs',
   role: 'Developer • Designer • Digital Solutions Creator',
+  roles: ['Website Designer', 'UI/UX Designer', 'Graphic Designer', 'WordPress Designer', 'Computer Science Student'],
   headline: 'I Build Digital Experiences That Turn Ideas Into Reality.',
+  heroIntro:
+    'Website, UI/UX, graphic and WordPress designer — and a Computer Science student — helping businesses look sharp and work smarter online.',
   about: {
     title: 'A Developer Who Thinks Beyond Code.',
     description: `I combine technology, design, and problem-solving to create impactful digital experiences.
@@ -16,13 +20,23 @@ export const profile = {
       { label: 'Continuous Learning', value: 'Always Evolving' },
     ],
   },
+  contact: {
+    // TODO: confirm this is the address you want clients to use
+    email: 'richmondabenney@gmail.com',
+    // TODO: replace with your real phone number (international format, e.g. +233 24 000 0000)
+    phone: '',
+    location: 'Accra, Ghana',
+  },
+  // TODO: paste your full profile URLs. Empty links render as "#" until filled in.
   socials: {
-    github: 'YOUR_GITHUB_URL',
-    linkedin: 'YOUR_LINKEDIN_URL',
-    instagram: 'YOUR_INSTAGRAM_URL',
-    whatsapp: 'YOUR_WHATSAPP_NUMBER',
-    email: 'YOUR_EMAIL',
+    linkedin: '',
+    behance: '',
+    dribbble: '',
+    github: '',
+    instagram: '',
+    whatsapp: '',
+    email: 'richmondabenney@gmail.com',
   },
   resumeUrl: '/resume.pdf',
-  profileImage: '/images/profile.jpg',
+  profileImage: '/images/Richmond.jpg',
 };

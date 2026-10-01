@@ -1,51 +1,342 @@
 @import "tailwindcss";
 
-@theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-}
+/* `dark:` utilities follow the data-theme attribute set in app/layout.tsx */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/* Raw values live on :root; the @theme block exposes them to Tailwind */
+/* (bg-surface, text-muted, rounded-blob, py-section, max-w-site ...). */
+/* ------------------------------------------------------------------ */
 
 :root {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 10, 10, 10;
+  color-scheme: light;
+
+  /* Surfaces & text */
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --surface-alt: #f7f7f7;
+  --ink: #15151a;
+  --muted: #6b6e7b;
+  --line: #eaeaee;
+
+  /* Brand */
+  --accent: #ff4d6d;          /* coral: shapes, tiles, highlights */
+  --accent-strong: #e0284f;   /* coral for white-text buttons (AA contrast) */
+  --accent-hover: #c81e44;
+  --sun: #ffe066;
+  --sun-soft: #f7c873;
+  --blush: #f4b6c8;
+  --grad-from: #2563eb;
+  --grad-to: #e0284f;
+  --success: #16a34a;
+  --focus: #2563eb;
+
+  /* Always-dark bands (CTA + footer) */
+  --night: #0b0b0f;
+  --night-muted: #a3a3ad;
+
+  /* Text on the yellow / pink tiles (same in both themes) */
+  --on-tile: #15151a;
+
+  /* Dark icon chips */
+  --icon-bg: #15151a;
+  --icon-fg: #ffffff;
+
+  --noise-opacity: 0.14;
+  --shadow-card: 0 1px 2px rgb(21 21 26 / 0.04), 0 12px 32px -12px rgb(21 21 26 / 0.12);
+
+  /* Spacing */
+  --gutter: clamp(1rem, 4vw, 2rem);
+  --section-y: clamp(4rem, 9vw, 7.5rem);
+  --container: 1200px;
+
+  /* Radii */
+  --r-card: 24px;
+  --r-blob: clamp(56px, 12vw, 96px);
+  --r-pill: 999px;
 }
 
-.dark {
-  --background: #0a0a0a;
-  --foreground: #ffffff;
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0f0f14;
+  --surface: #18181f;
+  --surface-alt: #141419;
+  --ink: #f3f3f6;
+  --muted: #a6a8b4;
+  --line: #2a2a33;
+
+  --grad-from: #60a5fa;
+  --grad-to: #ff6b86;
+  --success: #22c55e;
+  --focus: #93c5fd;
+
+  --night: #08080b;
+
+  --icon-bg: #f3f3f6;
+  --icon-fg: #15151a;
+
+  --noise-opacity: 0.1;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -12px rgb(0 0 0 / 0.6);
 }
 
-.light {
-  --background: #f5f5f5;
-  --foreground: #171717;
-  --foreground-rgb: 23, 23, 23;
-  --background-start-rgb: 245, 245, 245;
-  --background-end-rgb: 230, 230, 230;
+@theme inline {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-hover: var(--accent-hover);
+  --color-sun: var(--sun);
+  --color-sun-soft: var(--sun-soft);
+  --color-blush: var(--blush);
+  --color-success: var(--success);
+  --color-night: var(--night);
+  --color-night-muted: var(--night-muted);
+  --color-on-tile: var(--on-tile);
+  --color-icon-bg: var(--icon-bg);
+  --color-icon-fg: var(--icon-fg);
+
+  --spacing-gutter: var(--gutter);
+  --spacing-section: var(--section-y);
+  --container-site: var(--container);
+
+  --radius-card: var(--r-card);
+  --radius-blob: var(--r-blob);
+
+  --shadow-card: var(--shadow-card);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+html {
+  scroll-padding-top: 5.5rem; /* clears the sticky navbar */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-.bg-grid {
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
 }
 
-.light .bg-grid {
-  background-image:
-    linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+/* ------------------------------------------------------------------ */
+/* Components                                                          */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* Small gradient label above section headings */
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--grad-from), var(--grad-to));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Pill buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--r-pill);
+    border: 2px solid transparent;
+    padding: 0.8rem 1.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    cursor: pointer;
+  }
+  .btn-sm {
+    padding: 0.55rem 1.25rem;
+    font-size: 0.875rem;
+  }
+  .btn-primary {
+    background: var(--accent-strong);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+  .btn-outline {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .btn-outline:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-outline-light {
+    border-color: #fff;
+    color: #fff;
+  }
+  .btn-outline-light:hover {
+    background: #fff;
+    color: var(--night);
+  }
+  .btn-soft {
+    background: var(--surface);
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .btn-soft:hover {
+    border-color: var(--ink);
+  }
+
+  /* Photo inset inside a coloured tile, following the tile's uneven corners */
+  .tile-photo {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    border-radius: calc(var(--r-card) - 10px);
+    border-top-left-radius: calc(var(--r-blob) - 10px);
+  }
+
+  /* Speckled noise texture (hero background) */
+  .noise {
+    position: relative;
+    isolation: isolate;
+  }
+  .noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--noise-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 0 0 -1.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  [data-theme="dark"] .noise::before {
+    filter: invert(1);
+  }
+
+  /* Gradient skill bars (native <progress>) */
+  .skill-bar {
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 0.5rem;
+    border: 0;
+    border-radius: var(--r-pill);
+    background: var(--line);
+    overflow: hidden;
+  }
+  .skill-bar::-webkit-progress-bar {
+    background: var(--line);
+    border-radius: var(--r-pill);
+  }
+  .skill-bar::-webkit-progress-value {
+    background: linear-gradient(90deg, var(--grad-from), var(--grad-to));
+    border-radius: var(--r-pill);
+  }
+  .skill-bar::-moz-progress-bar {
+    background: linear-gradient(90deg, var(--grad-from), var(--grad-to));
+    border-radius: var(--r-pill);
+  }
+
+  /* Wavy yellow column of overlapping circles behind the "Why me" photo */
+  .wavy-shape {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+  .wavy-shape span {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--sun);
+  }
+  .wavy-shape span:nth-child(1) { width: 58%; top: 0;   left: 8%; }
+  .wavy-shape span:nth-child(2) { width: 58%; top: 20%; left: 34%; }
+  .wavy-shape span:nth-child(3) { width: 58%; top: 42%; left: 6%; }
+  .wavy-shape span:nth-child(4) { width: 52%; top: 60%; left: 38%; background: var(--sun-soft); }
+
+  /* Arch-topped photo frame (percentages so the bottom corners aren't scaled away) */
+  .photo-arch {
+    border-radius: 50% 50% var(--r-card) var(--r-card) / 32% 32% var(--r-card) var(--r-card);
+  }
+
+  /* Project dialog */
+  .project-dialog {
+    margin: auto;
+    width: min(56rem, calc(100% - 2rem));
+    max-height: calc(100dvh - 2rem);
+    border: 0;
+    border-radius: var(--r-card);
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0;
+  }
+  .project-dialog::backdrop {
+    background: rgb(11 11 15 / 0.7);
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion: one gentle hero entrance, nothing else                      */
+/* ------------------------------------------------------------------ */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-delay-1 { animation-delay: 0.08s; }
+.rise-delay-2 { animation-delay: 0.16s; }
+.rise-delay-3 { animation-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Stop the page scrolling behind an open modal */
+html:has(dialog[open]) {
+  overflow: hidden;
 }

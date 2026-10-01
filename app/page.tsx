@@ -1,28 +1,29 @@
-import Navbar from '@/components/sections/Navbar';
 import Hero from '@/components/sections/Hero';
 import TechStrip from '@/components/sections/TechStrip';
-import About from '@/components/sections/About';
-import Skills from '@/components/sections/Skills';
-import Projects from '@/components/sections/Projects';
 import Services from '@/components/sections/Services';
-import Experience from '@/components/sections/Experience';
+import WhyMe from '@/components/sections/WhyMe';
+import Stats from '@/components/sections/Stats';
+import Projects from '@/components/sections/Projects';
 import Testimonials from '@/components/sections/Testimonials';
+import CTA from '@/components/sections/CTA';
 import Footer from '@/components/sections/Footer';
-import CustomCursor from '@/components/ui/CustomCursor';
 
+// About, Skills, Experience, Contact and CustomCursor are no longer on the homepage,
+// but their files are kept in components/ in case you want them back.
 export default function Page() {
   return (
-    <main className="relative">
-      <CustomCursor />
-      <Hero />
-      <TechStrip />
-      <About />
-      <Skills />
-      <Projects />
-      <Services />
-      <Experience />
-      <Testimonials />
+    <>
+      <main id="main">
+        <Hero />
+        <TechStrip />
+        <Services />
+        <WhyMe />
+        <Stats />
+        <Projects />
+        <Testimonials />
+        <CTA />
+      </main>
       <Footer />
-    </main>
+    </>
   );
 }

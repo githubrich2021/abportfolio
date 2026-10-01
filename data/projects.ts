@@ -1,11 +1,22 @@
+export type ProjectFilter = 'web' | 'uiux' | 'graphics' | 'wordpress';
+
+// Filter buttons above the portfolio grid, and the label shown on each card.
+export const projectFilters: { id: ProjectFilter; button: string; label: string }[] = [
+  { id: 'web', button: 'Web', label: 'Web Design' },
+  { id: 'uiux', button: 'UI/UX', label: 'UI/UX' },
+  { id: 'graphics', button: 'Graphics', label: 'Branding' },
+  { id: 'wordpress', button: 'WordPress', label: 'WordPress' },
+];
+
 export interface Project {
   id: string;
   title: string;
   category: string;
+  filter: ProjectFilter;
   description: string;
   longDescription: string;
   technologies: string[];
-  image: string;
+  image: string; // TODO: add images to public/images/projects/ (they appear automatically once the file exists)
   githubUrl?: string;
   liveUrl?: string;
   caseStudy: {
@@ -24,6 +35,7 @@ export const projects: Project[] = [
     id: 'canteen-food-system',
     title: 'Canteen Food Ordering & Management System',
     category: 'Web Application',
+    filter: 'web',
     description: 'A web-based food ordering platform replacing manual ordering with a digital experience.',
     longDescription: 'This comprehensive system digitizes the entire food ordering process, from browsing categories to managing transactions. It streamlines operations for canteen staff while providing a modern interface for students/staff.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'Bootstrap', 'PHP', 'MySQL'],
@@ -49,6 +61,7 @@ export const projects: Project[] = [
     id: 'woocommerce-custom',
     title: 'WooCommerce Custom Experience',
     category: 'E-Commerce',
+    filter: 'wordpress',
     description: 'High-performance custom WooCommerce development with advanced filtering and AJAX search.',
     longDescription: 'A tailored e-commerce experience focusing on speed and user conversion. Implemented custom hooks and AJAX-powered interfaces to remove page reloads during product discovery.',
     technologies: ['WordPress', 'WooCommerce', 'PHP', 'JavaScript', 'CSS'],
@@ -73,6 +86,7 @@ export const projects: Project[] = [
     id: 'student-grade-check',
     title: 'Student Grade Check System',
     category: 'System Design',
+    filter: 'web',
     description: 'A digital system for students to securely check their academic grades.',
     longDescription: 'A secure portal where students can enter credentials to view their academic performance across different semesters.',
     technologies: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
@@ -96,6 +110,7 @@ export const projects: Project[] = [
     id: 'chatbot-interface',
     title: 'Chatbot Web Interface',
     category: 'UI/UX Design',
+    filter: 'uiux',
     description: 'A modern, responsive chatbot interface designed for seamless user interaction.',
     longDescription: 'A focus on conversational UI/UX, creating a fluid chat experience with a professional aesthetic.',
     technologies: ['HTML', 'CSS', 'JavaScript'],
@@ -119,6 +134,7 @@ export const projects: Project[] = [
     id: 'distribution-monitoring',
     title: 'Product Distribution Monitoring System',
     category: 'System Design',
+    filter: 'web',
     description: 'An enterprise-level system to monitor the movement of products across distribution channels.',
     longDescription: 'A complex monitoring system designed to track inventory from warehouse to end-customer.',
     technologies: ['React', 'Next.js', 'Node.js', 'MySQL'],
@@ -143,6 +159,7 @@ export const projects: Project[] = [
     id: 'brand-design-gallery',
     title: 'Graphic & Brand Design Projects',
     category: 'Creative Design',
+    filter: 'graphics',
     description: 'A curated gallery of logo designs, branding concepts, and promotional graphics.',
     longDescription: 'Showcasing the creative side of RiG_Designs through diverse branding projects for various clients.',
     technologies: ['Figma', 'Photoshop', 'Canva'],

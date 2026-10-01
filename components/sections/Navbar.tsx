@@ -1,138 +1,108 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Code2, Sun, Moon } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Menu, X } from 'lucide-react';
 import { profile } from '@/data/profile';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const navItems = [
-  { name: 'Home', href: '/' },
+  { name: 'Home', href: '/#home' },
   { name: 'About', href: '/#about' },
-  { name: 'Skills', href: '/#skills' },
-  { name: 'Projects', href: '/#projects' },
   { name: 'Services', href: '/#services' },
-  { name: 'Experience', href: '/#experience' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Portfolio', href: '/#portfolio' },
+  { name: 'Testimonials', href: '/#testimonials' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setIsOpen(false);
+    const desktop = window.matchMedia('(min-width: 1024px)');
+    const onResize = () => desktop.matches && setIsOpen(false);
+    window.addEventListener('keydown', onKey);
+    desktop.addEventListener('change', onResize);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      desktop.removeEventListener('change', onResize);
+    };
+  }, [isOpen]);
 
-    if (newMode) {
-      document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
-    } else {
-      document.documentElement.classList.remove('light');
-      document.documentElement.classList.add('dark');
-    }
-  };
+  const close = () => setIsOpen(false);
 
   return (
-    <nav className={cn(
-      "fixed top-0 w-full z-50 transition-all duration-300 px-6 py-4",
-      scrolled ? "py-3" : "py-5"
-    )}>
-      <div className={cn(
-        "max-w-7xl mx-auto flex items-center justify-between px-4 py-2 rounded-full transition-all duration-300",
-        scrolled ? "bg-white/5 backdrop-blur-md border border-white/10" : "bg-transparent"
-      )}>
-        <div className="flex items-center gap-2 group cursor-pointer">
-          <div className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center font-bold text-xl group-hover:rotate-12 transition-transform duration-300">
-            R
-          </div>
-          <span className="font-montserrat font-bold text-lg tracking-tighter">
-            {profile.brand}
+    <header
+      className={`sticky top-0 z-50 border-b bg-bg/85 backdrop-blur-md transition-colors ${
+        scrolled || isOpen ? 'border-line' : 'border-transparent'
+      }`}
+    >
+      <nav aria-label="Main" className="container-site flex h-18 items-center justify-between gap-4">
+        <Link href="/" className="flex items-center gap-2.5 rounded-full" onClick={close}>
+          <span className="inline-flex h-10 w-10 items-center justify-center rounded-full rounded-bl-md bg-accent-strong text-sm font-bold text-white">
+            {profile.initials}
           </span>
-        </div>
+          <span className="text-lg font-bold tracking-tight text-ink">{profile.brand}</span>
+        </Link>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <ul className="hidden items-center gap-7 lg:flex">
           {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
-            >
-              {item.name}
-            </a>
-          ))}
-          <button
-            onClick={toggleTheme}
-            className="p-2 text-neutral-400 hover:text-white transition-colors"
-            aria-label="Toggle Theme"
-          >
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <a
-            href="#contact"
-            className="px-5 py-2 bg-white text-black rounded-full text-sm font-semibold hover:bg-neutral-200 transition-colors"
-          >
-            Let's Work Together
-          </a>
-        </div>
-
-        {/* Mobile Toggle */}
-        <div className="flex items-center gap-2 md:hidden">
-          <button
-            onClick={toggleTheme}
-            className="p-2 text-white"
-            aria-label="Toggle Theme"
-          >
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
-          <button
-            className="p-2 text-white"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full px-6 pt-4 md:hidden"
-          >
-            <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-3xl p-6 flex flex-col gap-4">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="text-lg font-medium text-neutral-400 hover:text-white transition-colors"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </a>
-              ))}
-              <a
-                href="#contact"
-                className="mt-2 px-5 py-3 bg-white text-black rounded-full text-center font-semibold text-lg"
-                onClick={() => setIsOpen(false)}
-              >
-                Let's Work Together
+            <li key={item.name}>
+              <a href={item.href} className="text-sm font-medium text-muted transition-colors hover:text-ink">
+                {item.name}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
+            </li>
+          ))}
+        </ul>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          <ThemeToggle />
+          <Link href="/contact" className="btn btn-outline btn-sm hidden sm:inline-flex">
+            Hire Me
+          </Link>
+          <button
+            type="button"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-ink lg:hidden"
+            aria-expanded={isOpen}
+            aria-controls="mobile-menu"
+            aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setIsOpen((open) => !open)}
+          >
+            {isOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+          </button>
+        </div>
+      </nav>
+
+      <div id="mobile-menu" hidden={!isOpen} className="border-t border-line bg-bg lg:hidden">
+        <ul className="container-site flex flex-col py-4">
+          {navItems.map((item) => (
+            <li key={item.name}>
+              <a
+                href={item.href}
+                onClick={close}
+                className="block rounded-xl px-2 py-3 text-base font-medium text-ink transition-colors hover:bg-surface-alt"
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
+          <li className="pt-3 sm:hidden">
+            <Link href="/contact" onClick={close} className="btn btn-outline w-full">
+              Hire Me
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </header>
   );
 }

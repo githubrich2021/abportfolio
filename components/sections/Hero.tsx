@@ -1,177 +1,108 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Code2, Layout, Palette } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight, Code2, LayoutTemplate, Monitor, Palette, PenTool, Star } from 'lucide-react';
 import { profile } from '@/data/profile';
-import { skills } from '@/data/skills';
+
+const toolBubbles = [
+  { icon: PenTool, label: 'UI/UX design', className: 'bg-blush text-on-tile' },
+  { icon: LayoutTemplate, label: 'Web design', className: 'bg-sun text-on-tile' },
+  { icon: Palette, label: 'Graphic design', className: 'bg-sun-soft text-on-tile' },
+  { icon: Code2, label: 'Development', className: 'bg-icon-bg text-icon-fg' },
+];
+
+const serviceTiles = [
+  { icon: Monitor, label: 'Web Design', className: 'bg-sun rounded-tr-blob' },
+  { icon: PenTool, label: 'UI/UX Design', className: 'bg-blush rounded-bl-blob items-end text-right' },
+  { icon: Palette, label: 'Graphic Design', className: 'bg-sun-soft rounded-br-blob' },
+];
 
 export default function Hero() {
-  const [displayText, setDisplayText] = useState("");
-  const fullText = "I Build Digital Experiences That Turn Ideas Into Reality.";
-
-  useEffect(() => {
-    let i = 0;
-    let isDeleting = false;
-    let timer;
-
-    const type = () => {
-      if (!isDeleting) {
-        setDisplayText(fullText.slice(0, i));
-        i++;
-        if (i > fullText.length) {
-          isDeleting = true;
-          timer = setTimeout(type, 2000); // Pause at the end
-        } else {
-          timer = setTimeout(type, 100);
-        }
-      } else {
-        setDisplayText(fullText.slice(0, i));
-        i--;
-        if (i < 0) {
-          isDeleting = false;
-          timer = setTimeout(type, 500); // Pause before restarting
-        } else {
-          timer = setTimeout(type, 50); // Delete faster than typing
-        }
-      }
-    };
-
-    timer = setTimeout(type, 500);
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Selected top technologies to display as icons/logos
-  const featuredTech = [
-    ...skills.development.slice(4, 6), // React, Next.js
-    ...skills.design.slice(0, 1),       // Figma
-    ...skills.cms.slice(0, 1),          // WordPress
-  ].map(s => s.name);
-
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden w-full">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-grid -z-10 opacity-40" />
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-neutral-500/10 blur-[120px] rounded-full -z-10" />
-      <div className="absolute bottom-1/4 -left-20 w-96 h-96 bg-neutral-800/20 blur-[120px] rounded-full -z-10" />
-
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center w-full">
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-neutral-400 mb-6">
-            <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
-            TECHNOLOGY • DESIGN • DEVELOPMENT
+    <section id="home" className="noise overflow-hidden">
+      <div className="container-site grid items-center gap-12 py-12 sm:py-16 lg:grid-cols-[1.1fr_1fr] lg:gap-16 lg:py-24">
+        <div className="rise">
+          <div className="mb-7 flex items-center gap-4">
+            <ul className="flex -space-x-3" aria-label="What I work on">
+              <li>
+                <Image
+                  src={profile.profileImage}
+                  alt={profile.name}
+                  width={44}
+                  height={44}
+                  className="h-11 w-11 rounded-full object-cover ring-3 ring-bg"
+                />
+              </li>
+              {toolBubbles.map(({ icon: Icon, label, className }) => (
+                <li
+                  key={label}
+                  className={`inline-flex h-11 w-11 items-center justify-center rounded-full ring-3 ring-bg ${className}`}
+                >
+                  <Icon size={18} aria-hidden="true" />
+                  <span className="sr-only">{label}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="text-sm leading-snug text-muted">
+              Designer &amp; developer
+              <br />
+              <span className="font-semibold text-ink">CS student, Accra</span>
+            </p>
           </div>
 
-          <h1 className="text-5xl lg:text-7xl font-bold leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-neutral-500 min-h-[1.2em]">
-            {displayText}
-            <span className="animate-pulse ml-1">|</span>
+          <h1 className="text-[2.5rem] font-bold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
+            I design websites and experiences that <span className="text-accent-strong">grow your brand</span>.
           </h1>
 
-          <p className="text-lg text-neutral-400 mb-8 max-w-lg leading-relaxed">
-            {profile.about.description}
-          </p>
+          <p className="mt-6 max-w-xl text-lg font-light leading-[1.8] text-muted">{profile.heroIntro}</p>
 
-          <div className="flex flex-wrap gap-4">
-            <a
-              href="#projects"
-              className="group px-8 py-4 bg-white text-black rounded-full font-bold flex items-center gap-2 hover:bg-neutral-200 transition-all duration-300"
-            >
-              View My Work
-              <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a
-              href="#contact"
-              className="px-8 py-4 bg-white/5 backdrop-blur-md border border-white/20 rounded-full font-bold hover:bg-white/10 transition-all duration-300"
-            >
-              Let's Work Together
+          <div className="mt-9 flex flex-wrap items-center gap-3">
+            <Link href="/contact" className="btn btn-primary">
+              Contact Me <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+            <a href="#portfolio" className="btn btn-soft">
+              View my work
             </a>
           </div>
 
-          {/* Tech Logos Section */}
-          <div className="mt-12 pt-8 border-t border-white/10">
-            <p className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-4">Expertise in</p>
-            <div className="flex flex-wrap gap-6 items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-              {featuredTech.map((tech) => (
-                <div key={tech} className="flex items-center gap-2 text-sm font-medium text-neutral-400">
-                   <div className="w-6 h-6 rounded bg-white/10 flex items-center justify-center text-[10px]">
-                     {tech[0]}
-                   </div>
-                   {tech}
-                </div>
+          {/* TODO: keep this line only if it reflects real client feedback */}
+          <div className="mt-9 flex items-center gap-3">
+            <div className="flex text-sun-soft" aria-hidden="true">
+              {Array.from({ length: 5 }, (_, i) => (
+                <Star key={i} size={18} fill="currentColor" strokeWidth={0} />
               ))}
             </div>
+            <p className="text-sm text-muted">
+              <span className="font-semibold text-ink">5-star rating</span> from my clients
+            </p>
           </div>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="relative hidden lg:block"
-        >
-          {/* Visual Technology Element - Terminal-like interface */}
-          <div className="relative z-10 bg-white/5 backdrop-blur-md border border-white/20 p-1 rounded-2xl shadow-2xl overflow-hidden">
-            <div className="bg-neutral-900 px-4 py-2 flex items-center gap-2 border-b border-white/10">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/50" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/50" />
-                <div className="w-3 h-3 rounded-full bg-green-500/50" />
-              </div>
-              <div className="text-xs text-neutral-500 font-mono ml-4">bash — zsh</div>
-            </div>
-            <div className="p-6 font-mono text-sm leading-relaxed space-y-3">
-              <div className="flex gap-3">
-                <span className="text-green-400">➜</span>
-                <span className="text-neutral-300">npm run build-portfolio</span>
-              </div>
-              <div className="text-neutral-500 pl-6">
-                Checking dependencies... <span className="text-white">✓</span><br />
-                Optimizing assets... <span className="text-white">✓</span><br />
-                Generating static pages... <span className="text-white">✓</span><br />
-                Minifying CSS & JS... <span className="text-white">✓</span><br />
-                <span className="text-blue-400">Build successful!</span>
-              </div>
-              <div className="flex gap-3">
-                <span className="text-green-400">➜</span>
-                <span className="text-neutral-300">cat brand.txt</span>
-              </div>
-              <div className="text-white pl-6 italic">
-                "Designing the future of the web, one pixel at a time."
-              </div>
-              <div className="flex gap-3 animate-pulse">
-                <span className="text-green-400">➜</span>
-                <span className="w-2 h-5 bg-white" />
-              </div>
+        <div className="rise rise-delay-2 mx-auto grid w-full max-w-[520px] grid-cols-2 gap-4 sm:gap-5">
+          <div className="aspect-square rounded-card rounded-tl-blob bg-accent p-2.5">
+            {/* TODO: a cut-out photo (transparent PNG/WebP) would let the coral show through even more */}
+            <div className="tile-photo">
+              <Image
+                src={profile.profileImage}
+                alt={`Portrait of ${profile.name}`}
+                fill
+                sizes="(min-width: 1024px) 250px, (min-width: 640px) 45vw, 50vw"
+                fetchPriority="high"
+                className="object-cover"
+              />
             </div>
           </div>
-
-          {/* Floating Decorative Elements */}
-          <motion.div
-            animate={{ y: [0, -20, 0] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute -top-10 -right-10 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl"
-          >
-            <Code2 className="text-white" size={24} />
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, 20, 0] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-            className="absolute -bottom-10 -left-10 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl"
-          >
-            <Layout className="text-white" size={24} />
-          </motion.div>
-          <motion.div
-            animate={{ y: [0, -15, 0], x: [0, 10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-            className="absolute top-1/2 -right-20 p-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-xl"
-          >
-            <Palette className="text-white" size={24} />
-          </motion.div>
-        </motion.div>
+          {serviceTiles.map(({ icon: Icon, label, className }) => (
+            <div
+              key={label}
+              className={`flex aspect-square flex-col justify-between rounded-card p-5 text-on-tile sm:p-6 ${className}`}
+            >
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/70 sm:h-12 sm:w-12">
+                <Icon size={22} aria-hidden="true" />
+              </span>
+              <span className="text-base font-semibold sm:text-lg">{label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
