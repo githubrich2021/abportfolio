@@ -17,7 +17,7 @@ const placeholderStyle: Record<ProjectFilter, { icon: React.ElementType; classNa
 
 const labelFor = (filter: ProjectFilter) => projectFilters.find((f) => f.id === filter)?.label ?? filter;
 
-function ProjectVisual({ project, sizes }: { project: PortfolioItem; sizes: string }) {
+function ProjectVisual({ project, sizes, alignTop = false }: { project: PortfolioItem; sizes: string; alignTop?: boolean }) {
   if (project.hasImage) {
     return (
       <Image
@@ -26,7 +26,7 @@ function ProjectVisual({ project, sizes }: { project: PortfolioItem; sizes: stri
         fill
         sizes={sizes}
         loading="lazy"
-        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        className={`object-cover transition-transform duration-500 group-hover:scale-105 ${alignTop ? 'object-top' : ''}`}
       />
     );
   }
@@ -77,7 +77,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
             <button
               type="button"
               onClick={() => setSelected(project)}
-              className="group relative block aspect-[3/4] w-full overflow-hidden rounded-card rounded-tr-blob text-left"
+              className="group relative block aspect-3/4 w-full overflow-hidden rounded-card rounded-tr-blob text-left"
               aria-label={`${project.title}, ${labelFor(project.filter)}. View case study`}
             >
               <ProjectVisual project={project} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" />
@@ -117,7 +117,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
             </h2>
 
             <div className="relative mt-6 aspect-video overflow-hidden rounded-card">
-              <ProjectVisual project={selected} sizes="(min-width: 960px) 880px, 100vw" />
+              <ProjectVisual project={selected} sizes="(min-width: 960px) 880px, 100vw" alignTop />
             </div>
 
             <div className="mt-8 grid gap-10 md:grid-cols-3">

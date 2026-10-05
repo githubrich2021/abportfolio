@@ -12,7 +12,7 @@ export default function WhyMe() {
   return (
     <section id="about" aria-labelledby="about-heading" className="overflow-hidden py-section">
       <div className="container-site grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
-        <div className="relative isolate mx-auto aspect-[4/5] w-full max-w-[420px]">
+        <div className="relative isolate mx-auto aspect-4/5 w-full max-w-105">
           <div className="wavy-shape" aria-hidden="true">
             <span />
             <span />

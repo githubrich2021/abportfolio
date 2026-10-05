@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Mail, MapPin, Phone } from 'lucide-react';
-import { profile } from '@/data/profile';
+import { profile, toTelHref } from '@/data/profile';
 import ContactForm from '@/components/ui/ContactForm';
 import Footer from '@/components/sections/Footer';
 
@@ -14,8 +14,7 @@ export default function ContactPage() {
 
   const details = [
     { icon: Mail, label: 'Email', value: email, href: `mailto:${email}` },
-    // TODO: fill in profile.contact.phone to show your number here
-    { icon: Phone, label: 'Phone', value: phone || 'Available on request', href: phone ? `tel:${phone.replace(/\s/g, '')}` : undefined },
+    { icon: Phone, label: 'Phone', value: phone, href: toTelHref(phone) },
     { icon: MapPin, label: 'Location', value: `${location} · working remotely worldwide` },
   ];
 
@@ -60,7 +59,7 @@ export default function ContactPage() {
                     </li>
                   ))}
                 </ul>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-card rounded-br-blob border border-line">
+                <div className="relative aspect-4/3 overflow-hidden rounded-card rounded-br-blob border border-line">
                   <iframe
                     title="Map of Accra, Ghana"
                     src="https://www.google.com/maps?q=Accra,+Ghana&output=embed"

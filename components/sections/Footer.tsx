@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'lucide-react';
-import { profile } from '@/data/profile';
+import { profile, toTelHref } from '@/data/profile';
 import { services } from '@/data/services';
 import { BehanceIcon, DribbbleIcon, GitHubIcon, InstagramIcon, LinkedInIcon } from '@/components/ui/SocialIcons';
 
@@ -88,9 +88,8 @@ export default function Footer() {
             <a href={`mailto:${email}`} className={`flex items-center gap-3 break-all ${linkClass}`}>
               <Mail size={18} aria-hidden="true" className="shrink-0" /> {email}
             </a>
-            {/* TODO: the phone row appears once profile.contact.phone is filled in */}
             {phone && (
-              <a href={`tel:${phone.replace(/\s/g, '')}`} className={`flex items-center gap-3 ${linkClass}`}>
+              <a href={toTelHref(phone)} className={`flex items-center gap-3 ${linkClass}`}>
                 <Phone size={18} aria-hidden="true" className="shrink-0" /> {phone}
               </a>
             )}

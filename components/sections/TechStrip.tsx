@@ -38,24 +38,28 @@ const tools = [
   { name: 'Elementor', mark: <ElementorMark /> },
 ];
 
+// The list is repeated so the scroll loops seamlessly on wide screens; only the first copy is read by screen readers.
+const COPIES = 6;
+
 export default function TechStrip() {
   return (
-    <section aria-labelledby="tools-heading" className="border-y border-line py-12 sm:py-14">
-      <div className="container-site">
-        <h2 id="tools-heading" className="text-center text-sm font-semibold uppercase tracking-[0.12em] text-muted">
-          Tools I work with
-        </h2>
-        <ul className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-6 lg:gap-x-7 xl:gap-x-9">
-          {tools.map((tool) => (
-            <li
-              key={tool.name}
-              className="flex items-center gap-2.5 text-muted transition-colors hover:text-ink"
-            >
-              {tool.mark}
-              <span className="text-base font-semibold tracking-tight sm:text-lg lg:text-base xl:text-lg">{tool.name}</span>
-            </li>
+    <section aria-labelledby="tools-heading" className="overflow-hidden border-y border-line py-12 sm:py-14">
+      <h2 id="tools-heading" className="container-site text-center text-sm font-semibold uppercase tracking-[0.12em] text-muted">
+        Tools I work with
+      </h2>
+      <div className="marquee mt-8">
+        <div className="marquee-track">
+          {Array.from({ length: COPIES }, (_, copy) => (
+            <ul key={copy} className="marquee-group" aria-hidden={copy > 0 || undefined}>
+              {tools.map((tool) => (
+                <li key={tool.name} className="flex shrink-0 items-center gap-2.5 text-muted transition-colors hover:text-ink">
+                  {tool.mark}
+                  <span className="text-lg font-semibold tracking-tight">{tool.name}</span>
+                </li>
+              ))}
+            </ul>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );

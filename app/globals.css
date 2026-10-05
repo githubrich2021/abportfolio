@@ -326,6 +326,52 @@ body {
 .rise-delay-2 { animation-delay: 0.16s; }
 .rise-delay-3 { animation-delay: 0.24s; }
 
+/* Tools strip: continuous right-to-left scroll (pauses on hover) */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 60s linear infinite; /* lower = faster; use "reverse" here to scroll left-to-right */
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 3rem;
+  padding-right: 3rem; /* matches the gap so the loop has no seam */
+}
+
+/* Blinking caret for the typing hero headline */
+@keyframes caret-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typing-caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.9em;
+  margin-left: 0.06em;
+  vertical-align: -0.08em;
+  border-radius: 2px;
+  background: var(--accent-strong);
+  animation: caret-blink 1s steps(1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   ::before,
@@ -333,6 +379,31 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .typing-caret {
+    display: none;
+  }
+
+  /* Static, wrapped tools row instead of the scrolling strip */
+  .marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+    padding-inline: var(--gutter);
+  }
+  .marquee-track {
+    animation: none;
+    width: auto;
+    justify-content: center;
+  }
+  .marquee-group {
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 1.5rem;
+    padding-right: 0;
+  }
+  .marquee-group[aria-hidden] {
+    display: none;
   }
 }
 

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Code2, LayoutTemplate, Monitor, Palette, PenTool, Star } from 'lucide-react';
 import { profile } from '@/data/profile';
+import TypingHeadline from '@/components/ui/TypingHeadline';
 
 const toolBubbles = [
   { icon: PenTool, label: 'UI/UX design', className: 'bg-blush text-on-tile' },
@@ -10,10 +11,11 @@ const toolBubbles = [
   { icon: Code2, label: 'Development', className: 'bg-icon-bg text-icon-fg' },
 ];
 
+// Illustrations are transparent PNGs so the tile colour shows through.
 const serviceTiles = [
-  { icon: Monitor, label: 'Web Design', className: 'bg-sun rounded-tr-blob' },
-  { icon: PenTool, label: 'UI/UX Design', className: 'bg-blush rounded-bl-blob items-end text-right' },
-  { icon: Palette, label: 'Graphic Design', className: 'bg-sun-soft rounded-br-blob' },
+  { icon: Monitor, label: 'Web Design', image: '/images/services/web.png', className: 'bg-sun rounded-tr-blob' },
+  { icon: PenTool, label: 'UI/UX Design', image: '/images/services/uiux.png', className: 'bg-blush rounded-bl-blob justify-end' },
+  { icon: Palette, label: 'Graphic Design', image: '/images/services/graphic.png', className: 'bg-sun-soft rounded-br-blob' },
 ];
 
 export default function Hero() {
@@ -50,7 +52,13 @@ export default function Hero() {
           </div>
 
           <h1 className="text-[2.5rem] font-bold leading-[1.1] tracking-tight text-ink sm:text-5xl lg:text-[3.5rem]">
-            I design websites and experiences that <span className="text-accent-strong">grow your brand</span>.
+            <TypingHeadline
+              segments={[
+                { text: 'I design websites and experiences that ' },
+                { text: 'grow your brand', className: 'text-accent-strong' },
+                { text: '.' },
+              ]}
+            />
           </h1>
 
           <p className="mt-6 max-w-xl text-lg font-light leading-[1.8] text-muted">{profile.heroIntro}</p>
@@ -77,7 +85,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="rise rise-delay-2 mx-auto grid w-full max-w-[520px] grid-cols-2 gap-4 sm:gap-5">
+        <div className="rise rise-delay-2 mx-auto grid w-full max-w-130 grid-cols-2 gap-4 sm:gap-5">
           <div className="aspect-square rounded-card rounded-tl-blob bg-accent p-2.5">
             {/* TODO: a cut-out photo (transparent PNG/WebP) would let the coral show through even more */}
             <div className="tile-photo">
@@ -91,15 +99,18 @@ export default function Hero() {
               />
             </div>
           </div>
-          {serviceTiles.map(({ icon: Icon, label, className }) => (
+          {serviceTiles.map(({ icon: Icon, label, image, className }) => (
             <div
               key={label}
-              className={`flex aspect-square flex-col justify-between rounded-card p-5 text-on-tile sm:p-6 ${className}`}
+              className={`relative flex aspect-square items-end overflow-hidden rounded-card p-3 text-on-tile sm:p-4 ${className}`}
             >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/70 sm:h-12 sm:w-12">
-                <Icon size={22} aria-hidden="true" />
+              <div className="absolute inset-x-[4%] bottom-[16%] top-[2%]">
+                <Image src={image} alt="" fill sizes="(min-width: 1024px) 240px, 45vw" loading="eager" className="object-contain" />
+              </div>
+              <span className="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold shadow-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
+                <Icon size={16} aria-hidden="true" className="shrink-0" />
+                {label}
               </span>
-              <span className="text-base font-semibold sm:text-lg">{label}</span>
             </div>
           ))}
         </div>

@@ -1,3 +1,6 @@
+// Turns a display number like "+233 (0) 541 016 968" into a dialable tel: link (+233541016968).
+export const toTelHref = (phone: string) => `tel:${phone.replace(/\(0\)/g, '').replace(/[^\d+]/g, '')}`;
+
 export const profile = {
   name: 'Richmond Abenney',
   initials: 'RA',
@@ -23,8 +26,7 @@ export const profile = {
   contact: {
     // TODO: confirm this is the address you want clients to use
     email: 'richmondabenney@gmail.com',
-    // TODO: replace with your real phone number (international format, e.g. +233 24 000 0000)
-    phone: '',
+    phone: '+233 (0) 541 016 968',
     location: 'Accra, Ghana',
   },
   // TODO: paste your full profile URLs. Empty links render as "#" until filled in.
