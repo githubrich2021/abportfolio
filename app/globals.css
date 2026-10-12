@@ -305,8 +305,21 @@ body {
 }
 
 /* ------------------------------------------------------------------ */
-/* Motion: one gentle hero entrance, nothing else                      */
+/* Motion: hero entrance + scroll reveal for the sections below it     */
 /* ------------------------------------------------------------------ */
+
+/* Classes toggled by components/ui/ScrollReveal.tsx (only when JS runs) */
+.reveal {
+  opacity: 0;
+  transform: translateY(48px) scale(0.97);
+  transition:
+    opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1),
+    transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
 
 @keyframes rise {
   from {

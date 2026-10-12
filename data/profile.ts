@@ -31,11 +31,11 @@ export const profile = {
   },
   // TODO: paste your full profile URLs. Empty links render as "#" until filled in.
   socials: {
-    linkedin: '',
-    behance: '',
+    linkedin: 'https://www.linkedin.com/in/richmond-abenney-9a6517217/',
     dribbble: '',
-    github: '',
-    instagram: '',
+    github: 'https://github.com/githubrich2021',
+    instagram: 'https://www.instagram.com/rig_designs/',
+    facebook: 'https://web.facebook.com/abenney.richmond1/',
     whatsapp: '',
     email: 'richmondabenney@gmail.com',
   },

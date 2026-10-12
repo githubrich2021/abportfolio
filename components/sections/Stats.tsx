@@ -7,7 +7,7 @@ export default function Stats() {
   return (
     <section aria-label="Highlights" className="pb-section">
       {/* TODO: these numbers are placeholders. Put your real numbers in data/stats.ts */}
-      <ul className="container-site grid gap-5 md:grid-cols-3">
+      <ul className="reveal-stagger container-site grid gap-5 md:grid-cols-3">
         {stats.map((stat) => {
           const Icon = iconMap[stat.icon];
           return (

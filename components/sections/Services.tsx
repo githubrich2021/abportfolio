@@ -36,7 +36,7 @@ export default function Services() {
           </dl>
         </div>
 
-        <ul className="grid gap-5 sm:grid-cols-2">
+        <ul className="reveal-stagger grid gap-5 sm:grid-cols-2">
           {services.map((service, idx) => {
             const Icon = iconMap[service.icon] || Globe;
             return (

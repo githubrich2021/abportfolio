@@ -52,7 +52,7 @@ export default function Testimonials() {
           </div>
         </div>
 
-        <ul className="mx-auto mt-14 grid max-w-2xl gap-6 lg:max-w-none lg:grid-cols-3 lg:items-start">
+        <ul className="reveal-stagger mx-auto mt-14 grid max-w-2xl gap-6 lg:max-w-none lg:grid-cols-3 lg:items-start">
           {testimonials.map((t, idx) => {
             const featured = idx === 1;
             return (

@@ -25,15 +25,6 @@ export default function Hero() {
         <div className="rise">
           <div className="mb-7 flex items-center gap-4">
             <ul className="flex -space-x-3" aria-label="What I work on">
-              <li>
-                <Image
-                  src={profile.profileImage}
-                  alt={profile.name}
-                  width={44}
-                  height={44}
-                  className="h-11 w-11 rounded-full object-cover ring-3 ring-bg"
-                />
-              </li>
               {toolBubbles.map(({ icon: Icon, label, className }) => (
                 <li
                   key={label}
@@ -86,18 +77,14 @@ export default function Hero() {
         </div>
 
         <div className="rise rise-delay-2 mx-auto grid w-full max-w-130 grid-cols-2 gap-4 sm:gap-5">
-          <div className="aspect-square rounded-card rounded-tl-blob bg-accent p-2.5">
-            {/* TODO: a cut-out photo (transparent PNG/WebP) would let the coral show through even more */}
-            <div className="tile-photo">
-              <Image
-                src={profile.profileImage}
-                alt={`Portrait of ${profile.name}`}
-                fill
-                sizes="(min-width: 1024px) 250px, (min-width: 640px) 45vw, 50vw"
-                fetchPriority="high"
-                className="object-cover"
-              />
+          <div className="relative flex aspect-square items-end overflow-hidden rounded-card rounded-tl-blob bg-accent p-3 text-on-tile sm:p-4">
+            <div className="absolute inset-x-[4%] bottom-[16%] top-[2%] flex items-center justify-center text-white/90">
+              <Code2 aria-hidden="true" className="h-1/2 w-1/2" strokeWidth={1.5} />
             </div>
+            <span className="relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-full bg-white/90 px-3 py-1.5 text-xs font-semibold shadow-sm sm:gap-2 sm:px-4 sm:py-2 sm:text-sm">
+              <Code2 size={16} aria-hidden="true" className="shrink-0" />
+              Development
+            </span>
           </div>
           {serviceTiles.map(({ icon: Icon, label, image, className }) => (
             <div

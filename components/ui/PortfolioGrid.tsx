@@ -71,7 +71,7 @@ export default function PortfolioGrid({ projects }: { projects: PortfolioItem[] 
         {visible.length} {visible.length === 1 ? 'project' : 'projects'} shown
       </p>
 
-      <ul className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="reveal-stagger mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((project) => (
           <li key={project.id}>
             <button

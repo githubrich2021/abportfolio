@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Mail, MapPin, Phone } from 'lucide-react';
 import { profile, toTelHref } from '@/data/profile';
 import { services } from '@/data/services';
-import { BehanceIcon, DribbbleIcon, GitHubIcon, InstagramIcon, LinkedInIcon } from '@/components/ui/SocialIcons';
+import { DribbbleIcon, FacebookIcon, GitHubIcon, InstagramIcon, LinkedInIcon } from '@/components/ui/SocialIcons';
 
 const quickLinks = [
   { name: 'Home', href: '/#home' },
@@ -15,10 +15,10 @@ const quickLinks = [
 
 const socials = [
   { name: 'LinkedIn', href: profile.socials.linkedin, icon: LinkedInIcon },
-  { name: 'Behance', href: profile.socials.behance, icon: BehanceIcon },
   { name: 'Dribbble', href: profile.socials.dribbble, icon: DribbbleIcon },
   { name: 'GitHub', href: profile.socials.github, icon: GitHubIcon },
   { name: 'Instagram', href: profile.socials.instagram, icon: InstagramIcon },
+  { name: 'Facebook', href: profile.socials.facebook, icon: FacebookIcon },
 ];
 
 const headingClass = 'text-sm font-semibold uppercase tracking-[0.1em] text-white';

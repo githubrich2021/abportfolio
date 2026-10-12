@@ -7,6 +7,7 @@ import Projects from '@/components/sections/Projects';
 import Testimonials from '@/components/sections/Testimonials';
 import CTA from '@/components/sections/CTA';
 import Footer from '@/components/sections/Footer';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 // About, Skills, Experience, Contact and CustomCursor are no longer on the homepage,
 // but their files are kept in components/ in case you want them back.
@@ -24,6 +25,7 @@ export default function Page() {
         <CTA />
       </main>
       <Footer />
+      <ScrollReveal />
     </>
   );
 }
